@@ -1,10 +1,6 @@
-export class Item {
-  constructor(name, sellIn, quality) {
-    this.name = name;
-    this.sellIn = sellIn;
-    this.quality = quality;
-  }
-}
+
+
+import { Item } from "./classes.js";
 
 export let items = [];
 
