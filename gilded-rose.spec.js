@@ -1,14 +1,15 @@
 import { expect, describe, it } from "vitest";
-import { Item, items, updateQuality } from "./gilded-rose.js";
+import { items, updateQuality } from "./gilded-rose.js";
+import { Item, Legendary, Basic, Conjured, Cheeses, Tickets } from "./classes.js";
 
 describe("updateQuality", () => {
   it("reduces quality and sellIn of basic items by 1", () => {
-    const testItem = new Item("basic", 5, 3);
-    items.push(testItem);
+    const basicItem = new Basic("basic", 5, 3);
+    items.push(basicItem);
 
     updateQuality();
 
-    expect(testItem.quality).toBe(2);
-    expect(testItem.sellIn).toBe(4);
+    expect(basicItem.quality).toBe(2);
+    expect(basicItem.sellIn).toBe(4);
   });
 });

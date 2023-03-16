@@ -15,64 +15,102 @@ export class Item {
       this.sellIn = sellIn;
       this.quality = quality;
     }
+
+    dailyUpdate(){};
 }
 
+// Subclass of Item that handles Legendary items (such as "Sulfuras, Hand of Ragnaros")
 export class Legendary extends Item {
+    // Altered constructor to always set sellIn to zero, as a Legendary item "never has to be sold"
     constructor(name, quality){
         super(name, quality);
         this.sellIn = 0;
+        this.type = "Legendary";
     }
+
 }
 
+// Subclass of Item that handles all items that do not have any special rules for sellIn or quality
 export class Basic extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality);
+    }
+
     dailyUpdate(){
-        this.sellIn -= 1;
+        // Decrements the sellIn property by 1 automatically when called
+        this.sellIn--;
+        // If sellIn is less than zero, will decrement quality by 2
         if (this.sellIn < 0){
             this.quality -= 2;
+        // Otherwise decrements by 1
         } else {
-            this.quality -= 1;
+            this.quality--;
         }
-        if (this.quality <= 0) {
+        // Checks if quality dropped below zero and resets to zero if it has
+        if (this.quality < 0) {
             this.quality = 0;
         }
     }
 }
 
+// Subclass of Item that handles the new "Conjured" items that degrade in quality twice as fast as "Basic" items
 export class Conjured extends Item {
+    constructor(name, sellIn, quality) {
+        super(name, sellIn, quality);
+    }
+
     dailyUpdate(){
+        // Decrements the sellIn property by 1 automatically when called
         this.sellIn -= 1;
+        // If sellIn is less than zero, will decrement quality by 4
         if (this.sellIn < 0){
             this.quality -= 4;
+        // Otherwise decrements by 2
         } else {
             this.quality -= 2;
         }
-        if (this.quality <= 0) {
+        // Checks if quality dropped below zero and resets to zero if it has
+        if (this.quality < 0) {
             this.quality = 0;
         }
     }    
 }
 
-export class Special extends Item {
-    tickets(){
-        this.sellIn -= 1
+// Subclass of Item that handles any items that have special or particular rules for item degrading, with unique methods
+export class Tickets extends Item {
+    constructor(name, sellIn, quality){
+        super(name, sellIn, quality);
+    }
+
+    dailyUpdate(){
+        // Decrements the sellIn property by 1 automatically when called
+        this.sellIn--;
         if (this.sellIn < 0) {
-            this.quality = 0
+            this.quality = 0;
         } else if (this.sellIn <= 5) {
             this.quality += 3;
         } else if (this.sellIn <= 10) {
             this.quality += 2
         } else {
-            this.quality += 1
+            this.quality++;
         }
-
+        // Checks if quality rises above 50 and resets to 50 if it has
         if (this.quality > 50) {
             this.quality = 50;
         }
     }
-    agedBrie(){
-        this.sellIn -= 1;
-        this.quality += 1;
+}
 
+export class Cheeses extends Item {
+    constructor(name, sellIn, quality){
+        super(name, sellIn, quality);
+    }
+
+    dailyUpdate(){
+        // Decrements the sellIn property by 1 automatically when called
+        this.sellIn--;
+        this.quality++;
+        // Checks if quality rises above 50 and resets to 50 if it has
         if (this.quality > 50) {
             this.quality = 50;
         }
