@@ -22,10 +22,11 @@ export class Item {
 // Subclass of Item that handles Legendary items (such as "Sulfuras, Hand of Ragnaros")
 export class Legendary extends Item {
     // Altered constructor to always set sellIn to zero, as a Legendary item "never has to be sold"
-    constructor(name, quality){
-        super(name, quality);
-        this.sellIn = 0;
+    constructor(name, sellIn, quality){
+        super(name, sellIn, quality);
     }
+
+    dailyUpdate(){};
 
 }
 
@@ -75,7 +76,7 @@ export class Conjured extends Item {
     }    
 }
 
-// Subclass of Item that handles any items that have special or particular rules for item degrading, with unique methods
+// Subclass of Item that handles any "Ticket" items that have special for item degrading
 export class Tickets extends Item {
     constructor(name, sellIn, quality){
         super(name, sellIn, quality);
@@ -84,12 +85,13 @@ export class Tickets extends Item {
     dailyUpdate(){
         // Decrements the sellIn property by 1 automatically when called
         this.sellIn--;
+        // Checks sellIn and adjusts teh quality accordingly
         if (this.sellIn < 0) {
             this.quality = 0;
         } else if (this.sellIn <= 5) {
             this.quality += 3;
         } else if (this.sellIn <= 10) {
-            this.quality += 2
+            this.quality += 2;
         } else {
             this.quality++;
         }
@@ -99,7 +101,7 @@ export class Tickets extends Item {
         }
     }
 }
-
+// Subclass of Item that handles any "Cheese" items that increments as the sellIn decreases
 export class Cheeses extends Item {
     constructor(name, sellIn, quality){
         super(name, sellIn, quality);
