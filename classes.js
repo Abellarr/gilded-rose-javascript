@@ -9,6 +9,8 @@ Conjured items: Degrade quality at double normal rate (2x) based on sellIn time
 
 Special items: Have unique rules based on what they are
 */
+
+// Base Item class, parents all the item subclasses
 export class Item {
     constructor(name, sellIn, quality) {
       this.name = name;
@@ -21,11 +23,10 @@ export class Item {
 
 // Subclass of Item that handles Legendary items (such as "Sulfuras, Hand of Ragnaros")
 export class Legendary extends Item {
-    // Altered constructor to always set sellIn to zero, as a Legendary item "never has to be sold"
     constructor(name, sellIn, quality){
         super(name, sellIn, quality);
     }
-
+    // Update method does nothing as Legendary items' sellIn and quality do not change
     dailyUpdate(){};
 
 }
@@ -76,7 +77,7 @@ export class Conjured extends Item {
     }    
 }
 
-// Subclass of Item that handles any "Ticket" items that have special for item degrading
+// Subclass of Item that handles any "Ticket" items that have special rules for item degrading
 export class Tickets extends Item {
     constructor(name, sellIn, quality){
         super(name, sellIn, quality);
@@ -85,7 +86,7 @@ export class Tickets extends Item {
     dailyUpdate(){
         // Decrements the sellIn property by 1 automatically when called
         this.sellIn--;
-        // Checks sellIn and adjusts teh quality accordingly
+        // Checks sellIn for certain value ranges and adjusts the quality accordingly
         if (this.sellIn < 0) {
             this.quality = 0;
         } else if (this.sellIn <= 5) {
