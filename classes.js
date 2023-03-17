@@ -25,7 +25,6 @@ export class Legendary extends Item {
     constructor(name, quality){
         super(name, quality);
         this.sellIn = 0;
-        this.type = "Legendary";
     }
 
 }
